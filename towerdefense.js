@@ -1,7 +1,10 @@
+const width = window.innerWidth;
+const height = window.innerHeight;
+
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: width,
+    height: height,
     physics: {
         default: 'arcade',
         arcade: {
@@ -10,7 +13,8 @@ const config = {
     },
     scene: {
         preload: preload,
-        create: create
+        create: create,
+        update: update
     }
 };
 
@@ -25,7 +29,9 @@ function preload() {
 }
 
 function create() {
-    this.add.image(400, 300, 'sky');
+    let background = this.add.image(width/2, height/2, 'sky');
+    background.scaleX = width/800; //The original image width is 800 pixels
+    background.scaleY = height/600; //The original image height is 600 pixels
 
     let particles = this.add.particles('red');
 
@@ -35,11 +41,15 @@ function create() {
         blendMode: 'ADD'
     });
 
-    let logo = this.physics.add.image(400, 100, 'logo');
+    let logo = this.physics.add.image(width/2, 100, 'logo');
 
     logo.setVelocity(100, 200);
     logo.setBounce(1, 1);
     logo.setCollideWorldBounds(true);
 
     emitter.startFollow(logo);
+}
+
+function update() {
+
 }
